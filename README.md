@@ -35,7 +35,7 @@ alembic upgrade head
 1. Start your app with:
 
 ```sh
-uvicorn app.main:app
+python3 -m uvicorn app.main:app --reload --port 9009
 ```
 
 2. Go to [http://localhost:8000/docs](http://localhost:8000/docs).

@@ -11,17 +11,17 @@ class JobService:
         return job_obj
 
     @staticmethod
-    def search_jobs(job_title):
+    def search_jobs(job_title = None, country = None, salary_min = None, salary_max = None):
         """Search jobs in local and external sources"""
         job_list = []
-        jobs = job_repo.search(job_title)
+        jobs = job_repo.search(job_title, country, salary_min, salary_max)
         for j in jobs:
-            job_list.append({
-                'name': j.name,
-                'salary': j.salary,
-                'country': j.country,
-                'skills': j.skills
-            })
+            job_list.append([
+                j.name,
+                float(j.salary),
+                j.country,
+                j._skills
+            ])
 
         return job_list
 

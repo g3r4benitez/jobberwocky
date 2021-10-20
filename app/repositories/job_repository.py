@@ -32,10 +32,20 @@ def create(job: models.Job):
         return entity
 
 
-def search(job_title: str):
+def search(job_title: str = None, country: str = None, salary_min: float = None, salary_max: float = None):
     """search jobs"""
     with db():
-        return db.session.query(orm.Job).filter(orm.Job.name.like(f'%{job_title}%'))
+        job_list = db.session.query(orm.Job)
+        if job_title:
+            job_list = job_list.filter(orm.Job.name.like(f'%{job_title}%'))
+        if country:
+            job_list = job_list.filter(orm.Job.country.like(f'%{country}%'))
+        if salary_min:
+            job_list = job_list.filter(orm.Job.salary >= salary_min)
+        if salary_max:
+            job_list = job_list.filter(orm.Job.salary <= salary_max)
+
+        return job_list
 
 
 def get_list():

@@ -1,4 +1,6 @@
-from fastapi import APIRouter, Security, Depends
+from typing import Optional
+
+from fastapi import APIRouter, Depends
 from dependency_injector.wiring import inject, Provide
 from starlette import status
 
@@ -30,11 +32,14 @@ async def post_create(
 )
 @inject
 def search_jobs(
-        job_title: str,
+        job_title: Optional[str] = None,
+        country: Optional[str] = None,
+        salary_min: Optional[str] = None,
+        salary_max: Optional[str] = None,
         job_service: JobService = Depends(Provide[ContainerService.job_service]),
 ):
-    job_list = job_service.search_jobs(job_title)
-    external_list = ExternalService.get_jobs(job_title)
+    job_list = job_service.search_jobs(job_title, country, salary_min, salary_max)
+    external_list = ExternalService.get_jobs(job_title, country, salary_min, salary_max)
     job_list.extend(external_list)
     return job_list
 

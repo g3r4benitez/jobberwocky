@@ -17,5 +17,9 @@ class Job(Base, UpdateMixin):
     id = Column(Integer, index=True, primary_key=True)
     name = Column(String(100), index=True)
     country = Column(String(2), index=True)
-    salary = Column(String(100), index=True)
+    salary = Column(Float)
     skills = Column(String(255), index=False)
+
+    @property
+    def _skills(self):
+        return self.skills.replace(",", "").split()
